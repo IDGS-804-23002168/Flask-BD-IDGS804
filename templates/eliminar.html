@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block container %}
+{% import "_macros.html" as macros %}
+
+<form method="POST" class="max-w-md mx-auto">
+
+    {{ form.hidden_tag() }}
+
+    <!-- ID oculto -->
+    {{ form.id(type="hidden") }}
+
+    <h2 class="text-xl font-bold text-red-600 mb-4">
+        ¿Seguro que deseas eliminar este alumno?
+    </h2>
+
+    <div class="relative z-0 w-full mb-5 group">
+        {{ form.nombre(class="block py-2.5 px-0 w-full text-sm border-0 border-b-2 border-gray-300 bg-gray-100", readonly=True) }}
+    </div>
+
+    <div class="relative z-0 w-full mb-5 group">
+        {{ form.apellidos(class="block py-2.5 px-0 w-full text-sm border-0 border-b-2 border-gray-300 bg-gray-100", readonly=True) }}
+    </div>
+
+    <div class="relative z-0 w-full mb-5 group">
+        {{ form.email(class="block py-2.5 px-0 w-full text-sm border-0 border-b-2 border-gray-300 bg-gray-100", readonly=True) }}
+    </div>
+
+    <div class="flex gap-4">
+        <button type="submit"
+            class="text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded">
+            Eliminar
+        </button>
+
+        <a href="{{ url_for('index') }}"
+            class="text-white bg-gray-500 hover:bg-gray-600 px-4 py-2 rounded">
+            Cancelar
+        </a>
+    </div>
+
+</form>
+
+{% endblock %}

@@ -6,3 +6,6 @@ node_modules/
 
 # Carpeta static
 static/
+
+# Carpeta migrations
+migrations/

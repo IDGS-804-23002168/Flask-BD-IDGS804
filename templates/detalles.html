@@ -40,10 +40,13 @@
             src="/docs/images/people/profile-picture-3.jpg"
             alt="Bonnie image" />
         <h5 class="mb-0.5 text-xl font-semibold tracking-tight text-heading">
-            {{ nombre }} {{ apaterno }}
+            {{ nombre }} {{ apellidos }}
         </h5>
         <span class="text-sm text-body">
             {{ email }}
+        </span>
+        <span class="text-sm text-body">
+            {{ telefono }}
         </span>
         <div class="flex mt-4 md:mt-6 gap-4">
             <a href="{{ url_for('index') }}"
