@@ -24,3 +24,68 @@ def index():
 @maestros.route('/perfil/<nombre>')
 def perfil(nombre):
     return f"Perfil de {nombre}"
+
+# CREAR
+@maestros.route("/maestros/crear", methods=['GET', 'POST'])
+def crear():
+    form = forms.MaestroForm(request.form)
+
+    if request.method == 'POST' and form.validate():
+        maestro = Maestros(
+            matricula=form.matricula.data,
+            nombre=form.nombre.data,
+            apellidos=form.apellidos.data,
+            especialidad=form.especialidad.data,
+            email=form.email.data
+        )
+        db.session.add(maestro)
+        db.session.commit()
+        return redirect(url_for('maestros.index'))
+
+    return render_template("maestros/crear.html", form=form)
+
+
+# DETALLES
+@maestros.route("/maestros/detalles/<int:matricula>")
+def detalles(matricula):
+    maestro = Maestros.query.get_or_404(matricula)
+
+    return render_template("maestros/detalles.html",
+                           matricula=maestro.matricula,
+                           nombre=maestro.nombre,
+                           apellidos=maestro.apellidos,
+                           especialidad=maestro.especialidad,
+                           email=maestro.email)
+
+
+# EDITAR
+@maestros.route("/maestros/editar/<int:matricula>", methods=['GET', 'POST'])
+def editar(matricula):
+    maestro = Maestros.query.get_or_404(matricula)
+    form = forms.MaestroForm(request.form, obj=maestro)
+
+    if request.method == 'POST' and form.validate():
+        maestro.matricula = form.matricula.data
+        maestro.nombre = form.nombre.data
+        maestro.apellidos = form.apellidos.data
+        maestro.especialidad = form.especialidad.data
+        maestro.email = form.email.data
+
+        db.session.commit()
+        return redirect(url_for('maestros.index'))
+
+    return render_template("maestros/editar.html", form=form)
+
+
+# ELIMINAR
+@maestros.route("/maestros/eliminar/<int:matricula>", methods=['GET', 'POST'])
+def eliminar(matricula):
+    maestro = Maestros.query.get_or_404(matricula)
+    form = forms.MaestroForm(request.form, obj=maestro)
+
+    if request.method == 'POST':
+        db.session.delete(maestro)
+        db.session.commit()
+        return redirect(url_for('maestros.index'))
+
+    return render_template("maestros/eliminar.html", form=form)
