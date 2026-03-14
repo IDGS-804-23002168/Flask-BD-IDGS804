@@ -1,8 +1,42 @@
 {% extends "layout.html" %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+
+<div style="max-width:500px; margin:20px auto;">
+
+{% for category, message in messages %}
+
+<div style="
+padding:12px;
+border-radius:6px;
+margin-bottom:10px;
+font-family:Arial, sans-serif;
+font-size:14px;
+{% if category == 'danger' %}
+background-color:#ef4444;
+color:white;
+{% elif category == 'success' %}
+background-color:#22c55e;
+color:white;
+{% else %}
+background-color:#3b82f6;
+color:white;
+{% endif %}
+">
+{{ message }}
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endif %}
+{% endwith %}
+
 {% block container %}
 {% import "_macros.html" as macros %}
 
-<form method="POST" class="max-w-md mx-auto">
+<form method="POST" class="max-w-md mx-auto" novalidate>
     {{ form.hidden_tag() }}
 
     <div class="relative z-0 w-full mb-5 group">

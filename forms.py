@@ -1,10 +1,8 @@
-from wtforms import Form, StringField, DateField, IntegerField, EmailField,validators
+from wtforms import Form, StringField, DateField, IntegerField, EmailField, validators, TextAreaField, SelectField, SelectMultipleField
 from flask_wtf import FlaskForm
  
 class UserForm(FlaskForm):
-    id = IntegerField('id',[
-        validators.number_range(min=1, max=20, message='valor no valido')
-    ])
+    id = IntegerField('id')
    
     nombre = StringField('nombre',[
         validators.DataRequired(message='El nombre es requerido'),
@@ -39,4 +37,29 @@ class MaestroForm(FlaskForm):
     nombre = StringField('Nombre', [validators.DataRequired(message='El Nombre es requerido')])
     apellidos = StringField('Apellidos', [validators.DataRequired(message='Los Apellidos es requerido')])
     especialidad = StringField('Especialidad', [validators.DataRequired(message='La Especialidad es requerido')])
-    email = StringField('Email', [validators.DataRequired(), validators.Email(message='El correo es requerido')])
+    email = StringField('Email', [validators.DataRequired(message='El correo electrónico es obligatorio'), validators.Email(message='El correo es requerido')])
+    
+
+class CursoForm(FlaskForm):
+
+    nombre = StringField(
+        "Nombre",
+        [validators.DataRequired(message='El nombre es obligatorio')]
+    )
+
+    descripcion = TextAreaField(
+        "Descripción"
+    )
+
+    maestro_id = SelectField(
+        "Maestro",
+        coerce=int
+    )
+
+
+class InscripcionForm(FlaskForm):
+
+    alumnos = SelectMultipleField(
+        "Alumnos",
+        coerce=int
+    )

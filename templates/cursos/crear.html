@@ -1,0 +1,56 @@
+{% extends "layout.html" %}
+{% block container %}
+
+{% import "_macros.html" as macros %}
+
+<div class="py-16">
+
+    <div class="max-w-md mx-auto bg-white shadow-lg rounded-lg p-8">
+
+        <h2 class="text-2xl font-bold mb-6 text-gray-700">
+            Crear Curso
+        </h2>
+
+        <form method="POST" novalidate>
+
+            {{ form.hidden_tag() }}
+
+            <div class="mb-5">
+                {{ macros.camposNuevos(form.nombre) }}
+            </div>
+
+            <div class="mb-5">
+                {{ macros.camposNuevos(form.descripcion) }}
+            </div>
+
+            <div class="mb-5">
+
+                <label class="block mb-2 text-sm font-medium text-gray-900">
+                    Maestro
+                </label>
+
+                {{ form.maestro_id(class="w-full border border-gray-300 rounded-lg p-2 focus:ring-blue-500 focus:border-blue-500") }}
+
+            </div>
+
+            <div class="flex gap-4 mt-6">
+
+                <button type="submit"
+                    class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">
+                    Crear Curso
+                </button>
+
+                <a href="{{ url_for('cursos.index') }}"
+                    class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                    Regresar
+                </a>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

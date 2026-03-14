@@ -1,0 +1,124 @@
+{% extends "layout.html" %}
+
+{% block container %}
+<script src="https://cdn.tailwindcss.com"></script>
+
+
+<div class="max-w-4xl mx-auto bg-white p-6 rounded shadow">
+
+<h1 class="text-2xl font-bold mb-6">
+Consultas de Alumnos
+</h1>
+
+<form method="POST" class="grid grid-cols-3 gap-4 mb-6">
+
+<input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+
+<div>
+<label class="block text-sm font-medium">Alumno</label>
+
+<select name="alumno_id" class="w-full border p-2 rounded">
+<option value="">Seleccionar alumno</option>
+
+{% for a in alumnos %}
+<option value="{{a.id}}">
+{{a.nombre}} {{a.apellidos}}
+</option>
+{% endfor %}
+
+</select>
+</div>
+
+<!--
+<div>
+<label class="block text-sm font-medium">Curso</label>
+
+<select name="curso_id" class="w-full border p-2 rounded">
+<option value="">Seleccionar curso</option>
+
+{% for c in cursos %}
+<option value="{{c.id}}">
+{{c.nombre}}
+</option>
+{% endfor %}
+
+</select>
+</div>
+-->
+
+<div class="flex items-end">
+<button class="bg-blue-600 text-white px-4 py-2 rounded w-full">
+Buscar
+</button>
+</div>
+
+</form>
+
+
+{% if alumno %}
+
+<div class="mb-6">
+
+<h2 class="text-xl font-semibold">
+Cursos de {{alumno.nombre}} {{alumno.apellidos}}
+</h2>
+
+<ul class="list-disc ml-6 mt-2">
+
+{% for c in cursos_alumno %}
+<li>{{c.nombre}}</li>
+{% else %}
+<li>No está inscrito en cursos</li>
+{% endfor %}
+
+</ul>
+
+</div>
+
+{% endif %}
+
+
+
+{% if curso %}
+
+<div>
+
+<h2 class="text-xl font-semibold">
+Detalles del Curso
+</h2>
+
+<p class="mt-2">
+<strong>Nombre:</strong> {{curso.nombre}}
+</p>
+
+<p>
+<strong>Descripción:</strong> {{curso.descripcion}}
+</p>
+
+<p>
+<strong>Maestro:</strong>
+{{curso.maestro.nombre}} {{curso.maestro.apellidos}}
+</p>
+
+<h3 class="font-semibold mt-4">
+Alumnos Inscritos
+</h3>
+
+<ul class="list-disc ml-6 mt-2">
+
+{% for a in alumnos_curso %}
+<li>{{a.nombre}} {{a.apellidos}}</li>
+{% else %}
+<li>No hay alumnos inscritos</li>
+{% endfor %}
+
+</ul>
+
+</div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}

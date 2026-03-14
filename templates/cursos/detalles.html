@@ -1,0 +1,111 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="py-16">
+
+    <div class="max-w-3xl mx-auto rounded-lg p-8">
+
+        <h2 class="text-2xl font-bold mb-6 text-gray-700">
+            Detalles del Curso
+        </h2>
+
+        <!-- Datos del curso -->
+        <div class="mb-8">
+
+            <p class="mb-2">
+                <span class="font-semibold">ID:</span>
+                {{ curso.id }}
+            </p>
+
+            <p class="mb-2">
+                <span class="font-semibold">Nombre:</span>
+                {{ curso.nombre }}
+            </p>
+
+            <p class="mb-2">
+                <span class="font-semibold">Descripción:</span>
+                {{ curso.descripcion }}
+            </p>
+
+            <p class="mb-2">
+                <span class="font-semibold">Maestro:</span>
+                {{ curso.maestro.nombre }} {{ curso.maestro.apellidos }}
+            </p>
+
+        </div>
+
+        <hr class="my-6">
+
+        <!-- Lista de alumnos -->
+        <h3 class="text-xl font-semibold mb-4">
+            Alumnos inscritos
+        </h3>
+
+        <table class="w-full text-sm text-left text-gray-500">
+
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3">ID</th>
+                    <th class="px-6 py-3">Nombre</th>
+                    <th class="px-6 py-3">Email</th>
+                    <th class="px-6 py-3">Teléfono</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for alumno in curso.alumnos %}
+
+                <tr class="bg-white border-b">
+
+                    <td class="px-6 py-4">
+                        {{ alumno.id }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ alumno.nombre }} {{ alumno.apellidos }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ alumno.email }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ alumno.telefono }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="4" class="px-6 py-4 text-center">
+                        No hay alumnos inscritos en este curso.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        <div class="mt-6 flex gap-4">
+
+            <a href="{{ url_for('cursos.index') }}"
+                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                Regresar
+            </a>
+
+            <a href="{{ url_for('cursos.editar', id=curso.id) }}"
+                class="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600">
+                Editar
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

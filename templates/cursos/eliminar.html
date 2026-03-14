@@ -1,0 +1,106 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="py-16">
+
+    <div class="max-w-3xl mx-auto rounded-lg p-8">
+
+        <h2 class="text-2xl font-bold mb-6 text-red-600">
+            Eliminar Curso
+        </h2>
+
+        <p class="mb-6 text-gray-600">
+            ¿Estás seguro que deseas eliminar este curso?
+        </p>
+
+        <!-- Datos del curso -->
+        <div class="mb-8">
+
+            <p class="mb-2">
+                <span class="font-semibold">ID:</span>
+                {{ curso.id }}
+            </p>
+
+            <p class="mb-2">
+                <span class="font-semibold">Nombre:</span>
+                {{ curso.nombre }}
+            </p>
+
+            <p class="mb-2">
+                <span class="font-semibold">Descripción:</span>
+                {{ curso.descripcion }}
+            </p>
+
+            <p class="mb-2">
+                <span class="font-semibold">Maestro:</span>
+                {{ curso.maestro.nombre }} {{ curso.maestro.apellidos }}
+            </p>
+
+        </div>
+
+        <hr class="my-6">
+
+        <!-- Alumnos -->
+        <h3 class="text-xl font-semibold mb-4">
+            Alumnos inscritos
+        </h3>
+
+        <table class="w-full text-sm text-left text-gray-500">
+
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                <tr>
+                    <th class="px-6 py-3">ID</th>
+                    <th class="px-6 py-3">Nombre</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for alumno in curso.alumnos %}
+
+                <tr class="bg-white border-b">
+
+                    <td class="px-6 py-4">
+                        {{ alumno.id }}
+                    </td>
+
+                    <td class="px-6 py-4">
+                        {{ alumno.nombre }} {{ alumno.apellidos }}
+                    </td>
+
+                </tr>
+
+                {% else %}
+
+                <tr>
+                    <td colspan="2" class="px-6 py-4 text-center">
+                        No hay alumnos inscritos.
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+<form method="POST" class="mt-6 flex gap-4">
+    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            
+            <button type="submit"
+                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+                Eliminar Curso
+            </button>
+
+            <a href="{{ url_for('cursos.index') }}"
+                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">
+                Cancelar
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+{% endblock %}

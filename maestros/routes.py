@@ -10,10 +10,11 @@ from flask_migrate import Migrate
 from maestros.routes import maestros, maestros
 from models import db
 from models import Alumnos, Maestros
+from flask import flash
 
 
 @maestros.route("/maestros", methods=['GET','POST'])
-@maestros.route("/index")
+@maestros.route("/maestros/index")
 def index():
     create_form=forms.UserForm(request.form)
     maestros=Maestros.query.all()
@@ -26,11 +27,41 @@ def perfil(nombre):
     return f"Perfil de {nombre}"
 
 # CREAR
+# @maestros.route("/maestros/crear", methods=['GET', 'POST'])
+# def crear():
+#     form = forms.MaestroForm(request.form)
+
+#     if request.method == 'POST' and form.validate():
+#         maestro = Maestros(
+#             matricula=form.matricula.data,
+#             nombre=form.nombre.data,
+#             apellidos=form.apellidos.data,
+#             especialidad=form.especialidad.data,
+#             email=form.email.data
+#         )
+#         db.session.add(maestro)
+#         db.session.commit()
+#         return redirect(url_for('maestros.index'))
+
+#     return render_template("maestros/crear.html", form=form)
+
+# CREAR
 @maestros.route("/maestros/crear", methods=['GET', 'POST'])
 def crear():
+
     form = forms.MaestroForm(request.form)
 
     if request.method == 'POST' and form.validate():
+
+        # verificar si ya existe
+        maestro_existente = Maestros.query.filter_by(
+            matricula=form.matricula.data
+        ).first()
+
+        if maestro_existente:
+            flash("La matrícula ya existe.", "danger")
+            return render_template("maestros/crear.html", form=form)
+
         maestro = Maestros(
             matricula=form.matricula.data,
             nombre=form.nombre.data,
@@ -38,8 +69,10 @@ def crear():
             especialidad=form.especialidad.data,
             email=form.email.data
         )
+
         db.session.add(maestro)
         db.session.commit()
+
         return redirect(url_for('maestros.index'))
 
     return render_template("maestros/crear.html", form=form)
